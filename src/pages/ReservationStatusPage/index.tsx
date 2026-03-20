@@ -62,8 +62,7 @@ export function ReservationStatusPage() {
 
   const [activeReservation, setActiveReservation] = useState<string | null>(null);
 
-  const getRoomName = (roomId: string) =>
-    rooms.find((r: { id: string; name: string }) => r.id === roomId)?.name ?? roomId;
+  const getRoomName = (roomId: string) => rooms.find(r => r.id === roomId)?.name ?? roomId;
 
   return (
     <div
@@ -346,55 +345,45 @@ export function ReservationStatusPage() {
               gap: 10px;
             `}
           >
-            {myReservationList.map(
-              (res: {
-                id: string;
-                roomId: string;
-                date: string;
-                start: string;
-                end: string;
-                attendees: number;
-                equipment: string[];
-              }) => (
-                <div
-                  key={res.id}
-                  css={css`
-                    padding: 14px 16px;
-                    border-radius: 14px;
-                    background: ${colors.grey50};
-                    border: 1px solid ${colors.grey200};
-                  `}
-                >
-                  <ListRow
-                    contents={
-                      <ListRow.Text2Rows
-                        top={getRoomName(res.roomId)}
-                        topProps={{ typography: 't6', fontWeight: 'bold', color: colors.grey900 }}
-                        bottom={`${res.date} ${res.start}~${res.end} · ${res.attendees}명 · ${
-                          res.equipment.map((e: string) => EQUIPMENT_LABELS[e]).join(', ') || '장비 없음'
-                        }`}
-                        bottomProps={{ typography: 't7', color: colors.grey600 }}
-                      />
-                    }
-                    right={
-                      <Button
-                        type="danger"
-                        style="weak"
-                        size="small"
-                        onClick={e => {
-                          e.stopPropagation();
-                          if (window.confirm('정말 취소하시겠습니까?')) {
-                            handleCancel(res.id);
-                          }
-                        }}
-                      >
-                        취소
-                      </Button>
-                    }
-                  />
-                </div>
-              )
-            )}
+            {myReservationList.map(res => (
+              <div
+                key={res.id}
+                css={css`
+                  padding: 14px 16px;
+                  border-radius: 14px;
+                  background: ${colors.grey50};
+                  border: 1px solid ${colors.grey200};
+                `}
+              >
+                <ListRow
+                  contents={
+                    <ListRow.Text2Rows
+                      top={getRoomName(res.roomId)}
+                      topProps={{ typography: 't6', fontWeight: 'bold', color: colors.grey900 }}
+                      bottom={`${res.date} ${res.start}~${res.end} · ${res.attendees}명 · ${
+                        res.equipment.map((e: string) => EQUIPMENT_LABELS[e]).join(', ') || '장비 없음'
+                      }`}
+                      bottomProps={{ typography: 't7', color: colors.grey600 }}
+                    />
+                  }
+                  right={
+                    <Button
+                      type="danger"
+                      style="weak"
+                      size="small"
+                      onClick={e => {
+                        e.stopPropagation();
+                        if (window.confirm('정말 취소하시겠습니까?')) {
+                          handleCancel(res.id);
+                        }
+                      }}
+                    >
+                      취소
+                    </Button>
+                  }
+                />
+              </div>
+            ))}
           </div>
         )}
       </div>

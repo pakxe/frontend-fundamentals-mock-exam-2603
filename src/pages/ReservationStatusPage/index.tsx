@@ -11,6 +11,15 @@ import { DateString } from 'shared/types/dateType';
 import { ReservationTimelineSection } from 'shared/components/ReservationTimelineSection';
 import { MessageBanner } from 'shared/components/MessageBanner';
 import { MyReservationSection } from 'shared/components/MyReservationSection';
+import { useTempMessage } from 'shared/hooks/useTempMessage';
+
+function getInitialMessage(locationState: { message?: string } | null): Message | null {
+  return locationState?.message ? { type: 'success', text: locationState.message } : null;
+}
+
+function getRoomNameById(rooms: { id: string; name: string }[], roomId: string) {
+  return rooms.find(room => room.id === roomId)?.name ?? roomId;
+}
 
 type Message = {
   type: 'success' | 'error';
@@ -19,21 +28,11 @@ type Message = {
 
 export function ReservationStatusPage() {
   const navigate = useNavigate();
-  const location = useLocation();
   const queryClient = useQueryClient();
 
   const [date, setDate] = useState<DateString>(formatDate(new Date()));
 
-  const locationState = location.state as { message?: string } | null;
-  const [message, setMessage] = useState<Message | null>(
-    locationState?.message ? { type: 'success', text: locationState.message } : null
-  );
-
-  useEffect(() => {
-    if (locationState?.message) {
-      window.history.replaceState({}, '');
-    }
-  }, [locationState]);
+  const { setMessage, message } = useTempMessage();
 
   const { data: rooms = [] } = useQuery(['rooms'], getRooms);
   const { data: reservations = [] } = useQuery(['reservations', date], () => getReservations(date));
@@ -74,7 +73,9 @@ export function ReservationStatusPage() {
       </Top.Top03>
 
       <Spacing size={24} />
+
       <SelectDate value={date} onChangeDate={setDate} />
+
       <Spacing size={24} />
       <Border size={8} />
       <Spacing size={24} />

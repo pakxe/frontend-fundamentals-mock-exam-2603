@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-type Message = { type: 'success' | 'error'; text: string };
+export type Message = { type: 'success' | 'error'; text: string };
 
 export function useTempMessage() {
   const location = useLocation();

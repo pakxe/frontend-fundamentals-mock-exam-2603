@@ -6,6 +6,9 @@ import { Room, Reservation } from 'shared/types/reservation';
 import { TimeString } from 'shared/types/timeType';
 import { genTimeline, timeToMinutes } from 'shared/utils/timeUtils';
 import { RESERVATION } from 'shared/constants/reservation';
+import { DateString } from 'shared/types/dateType';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { reservationQueries } from 'shared/api/reservationQueries';
 
 const EQUIPMENT_LABELS: Record<string, string> = {
   tv: 'TV',
@@ -29,11 +32,13 @@ function getReservationBarStyle(start: TimeString, end: TimeString) {
 }
 
 type Props = {
-  rooms: Room[];
-  reservations: Reservation[];
+  date: DateString;
 };
 
-export function ReservationTimelineSection({ rooms, reservations }: Props) {
+export function ReservationTimelineSection({ date }: Props) {
+  const { data: rooms } = useSuspenseQuery(reservationQueries.rooms());
+  const { data: reservations } = useSuspenseQuery(reservationQueries.all(date));
+
   const [activeReservation, setActiveReservation] = useState<string | null>(null);
 
   const reservationsByRoomId = useMemo(() => {

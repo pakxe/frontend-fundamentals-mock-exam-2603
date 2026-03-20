@@ -1,7 +1,11 @@
 import { css } from '@emotion/react';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { Spacing, Button, Text, ListRow } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
-import { Reservation } from 'shared/types/reservation';
+import { reservationQueries } from 'shared/api/reservationQueries';
+import { useCancelReservation } from 'shared/hooks/useCancelReservation';
+import { Message } from 'shared/hooks/useTempMessage';
+import { getRoomName } from 'shared/utils/getRoomName';
 
 const EQUIPMENT_LABELS: Record<string, string> = {
   tv: 'TV',
@@ -15,12 +19,24 @@ function formatEquipmentLabels(equipment: string[]) {
 }
 
 type Props = {
-  reservations: Reservation[];
-  getRoomName: (roomId: string) => string;
-  onCancel: (id: string) => void | Promise<void>;
+  setMessage: (message: Message) => void;
 };
 
-export function MyReservationSection({ reservations, getRoomName, onCancel }: Props) {
+export function MyReservationSection({ setMessage }: Props) {
+  const { data: rooms } = useSuspenseQuery(reservationQueries.rooms());
+  const { data: reservations } = useSuspenseQuery(reservationQueries.mine());
+
+  const cancelMutation = useCancelReservation();
+
+  const handleCancel = async (id: string) => {
+    try {
+      await cancelMutation.mutateAsync(id);
+      setMessage({ type: 'success', text: '예약이 취소되었습니다.' });
+    } catch {
+      setMessage({ type: 'error', text: '취소에 실패했습니다.' });
+    }
+  };
+
   return (
     <div
       css={css`
@@ -80,7 +96,7 @@ export function MyReservationSection({ reservations, getRoomName, onCancel }: Pr
               <ListRow
                 contents={
                   <ListRow.Text2Rows
-                    top={getRoomName(reservation.roomId)}
+                    top={getRoomName(rooms, reservation.roomId)}
                     topProps={{ typography: 't6', fontWeight: 'bold', color: colors.grey900 }}
                     bottom={`${reservation.date} ${reservation.start}~${reservation.end} · ${
                       reservation.attendees
@@ -97,7 +113,7 @@ export function MyReservationSection({ reservations, getRoomName, onCancel }: Pr
                       e.stopPropagation();
 
                       if (window.confirm('정말 취소하시겠습니까?')) {
-                        onCancel(reservation.id);
+                        handleCancel(reservation.id);
                       }
                     }}
                   >

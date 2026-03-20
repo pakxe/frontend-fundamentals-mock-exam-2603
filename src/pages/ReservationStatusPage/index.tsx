@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Top, Spacing, Border, Button } from '_tosslib/components';
@@ -12,13 +12,10 @@ import { ReservationTimelineSection } from 'shared/components/ReservationTimelin
 import { MessageBanner } from 'shared/components/MessageBanner';
 import { MyReservationSection } from 'shared/components/MyReservationSection';
 import { useTempMessage } from 'shared/hooks/useTempMessage';
+import { Loading } from 'shared/components/Loading';
 
 function getInitialMessage(locationState: { message?: string } | null): Message | null {
   return locationState?.message ? { type: 'success', text: locationState.message } : null;
-}
-
-function getRoomNameById(rooms: { id: string; name: string }[], roomId: string) {
-  return rooms.find(room => room.id === roomId)?.name ?? roomId;
 }
 
 type Message = {
@@ -33,28 +30,6 @@ export function ReservationStatusPage() {
   const [date, setDate] = useState<DateString>(formatDate(new Date()));
 
   const { setMessage, message } = useTempMessage();
-
-  const { data: rooms = [] } = useQuery(['rooms'], getRooms);
-  const { data: reservations = [] } = useQuery(['reservations', date], () => getReservations(date));
-  const { data: myReservationList = [] } = useQuery(['myReservations'], getMyReservations);
-
-  const cancelMutation = useMutation((id: string) => cancelReservation(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['reservations']);
-      queryClient.invalidateQueries(['myReservations']);
-    },
-  });
-
-  const handleCancel = async (id: string) => {
-    try {
-      await cancelMutation.mutateAsync(id);
-      setMessage({ type: 'success', text: '예약이 취소되었습니다.' });
-    } catch {
-      setMessage({ type: 'error', text: '취소에 실패했습니다.' });
-    }
-  };
-
-  const getRoomName = (roomId: string) => rooms.find(room => room.id === roomId)?.name ?? roomId;
 
   return (
     <div
@@ -80,7 +55,9 @@ export function ReservationStatusPage() {
       <Border size={8} />
       <Spacing size={24} />
 
-      <ReservationTimelineSection rooms={rooms} reservations={reservations} />
+      <Suspense fallback={<Loading />}>
+        <ReservationTimelineSection date={date} />
+      </Suspense>
 
       <Spacing size={24} />
       <Border size={8} />
@@ -88,7 +65,9 @@ export function ReservationStatusPage() {
 
       <MessageBanner message={message} />
 
-      <MyReservationSection reservations={myReservationList} getRoomName={getRoomName} onCancel={handleCancel} />
+      <Suspense fallback={<Loading />}>
+        <MyReservationSection setMessage={setMessage} />
+      </Suspense>
 
       <Spacing size={24} />
       <Border size={8} />

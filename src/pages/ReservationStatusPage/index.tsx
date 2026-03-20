@@ -25,7 +25,6 @@ type Message = {
 
 export function ReservationStatusPage() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const [date, setDate] = useState<DateString>(formatDate(new Date()));
 

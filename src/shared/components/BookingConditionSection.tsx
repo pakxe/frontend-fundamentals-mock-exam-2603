@@ -33,7 +33,6 @@ interface ConditionProps {
 }
 
 export function BookingConditionSection({ conditions, onChange, floors, validationError }: ConditionProps) {
-  // 다시 date를 포함해서 꺼냅니다.
   const { date, startTime, endTime, attendees, preferredFloor, equipment } = conditions;
 
   return (

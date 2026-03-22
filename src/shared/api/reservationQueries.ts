@@ -6,7 +6,7 @@ import type { DateString } from 'shared/types/dateType';
 export const reservationQueries = {
   all: (date: DateString) =>
     queryOptions({
-      queryKey: reservationKeys.all(),
+      queryKey: reservationKeys.all(date),
       queryFn: () => getReservations(date),
     }),
 

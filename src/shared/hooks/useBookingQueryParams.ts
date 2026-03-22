@@ -20,7 +20,7 @@ export function useBookingQueryParams() {
       startTime: isTimeString(rawStart) ? rawStart : '',
       endTime: isTimeString(rawEnd) ? rawEnd : '',
       attendees: Number(searchParams.get('attendees')) || 1,
-      preferredFloor: searchParams.get('floor') ? Number(searchParams.get('floor')) : null,
+      floor: searchParams.get('floor') ? Number(searchParams.get('floor')) : null,
       equipment: parsedEquipment,
     };
   }, [searchParams]);

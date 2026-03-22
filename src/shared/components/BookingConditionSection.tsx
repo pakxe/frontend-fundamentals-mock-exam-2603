@@ -21,7 +21,7 @@ export interface BookingConditions {
   startTime: TimeString | '';
   endTime: TimeString | '';
   attendees: number;
-  preferredFloor: number | null;
+  floor: number | null;
   equipment: string[];
 }
 
@@ -33,7 +33,7 @@ interface ConditionProps {
 }
 
 export function BookingConditionSection({ conditions, onChange, floors, validationError }: ConditionProps) {
-  const { date, startTime, endTime, attendees, preferredFloor, equipment } = conditions;
+  const { date, startTime, endTime, attendees, floor, equipment } = conditions;
 
   return (
     <div
@@ -74,10 +74,11 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
             flex: 1;
           `}
         >
-          <Text as="label" typography="t7" fontWeight="medium" color={colors.grey600}>
+          <Text as="label" htmlFor="start-time" typography="t7" fontWeight="medium" color={colors.grey600}>
             시작 시간
           </Text>
           <Select
+            id="start-time"
             value={startTime}
             onChange={e => {
               const val = e.target.value;
@@ -100,10 +101,11 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
             flex: 1;
           `}
         >
-          <Text as="label" typography="t7" fontWeight="medium" color={colors.grey600}>
+          <Text as="label" htmlFor="end-time" typography="t7" fontWeight="medium" color={colors.grey600}>
             종료 시간
           </Text>
           <Select
+            id="end-time"
             value={endTime}
             onChange={e => {
               const val = e.target.value;
@@ -136,10 +138,11 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
             flex: 1;
           `}
         >
-          <Text as="label" typography="t7" fontWeight="medium" color={colors.grey600}>
+          <Text as="label" htmlFor="attendees" typography="t7" fontWeight="medium" color={colors.grey600}>
             참석 인원
           </Text>
           <input
+            id="attendees"
             type="number"
             min={1}
             value={attendees}
@@ -167,14 +170,15 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
             flex: 1;
           `}
         >
-          <Text as="label" typography="t7" fontWeight="medium" color={colors.grey600}>
+          <Text as="label" htmlFor="floor" typography="t7" fontWeight="medium" color={colors.grey600}>
             선호 층
           </Text>
           <Select
-            value={preferredFloor ?? ''}
+            id="floor"
+            value={floor ?? ''}
             onChange={e => {
               const val = e.target.value;
-              onChange('preferredFloor', val === '' ? null : Number(val));
+              onChange('floor', val === '' ? null : Number(val));
             }}
           >
             <option value="">전체</option>
@@ -207,6 +211,7 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
               <button
                 key={eq}
                 type="button"
+                aria-label={EQUIPMENT_LABELS[eq]}
                 onClick={() => {
                   const next = selected ? equipment.filter(e => e !== eq) : [...equipment, eq];
                   onChange('equipment', next);

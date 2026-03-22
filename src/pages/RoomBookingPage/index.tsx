@@ -36,6 +36,7 @@ export function RoomBookingPage() {
         `}
       >
         <button
+          aria-label="뒤로가기"
           type="button"
           onClick={() => navigate('/')}
           css={css`

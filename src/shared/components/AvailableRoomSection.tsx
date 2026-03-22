@@ -65,9 +65,10 @@ export function AvailableRoomSection({ rooms, selectedRoomId, onSelectRoom }: Av
             return (
               <div
                 key={room.id}
-                onClick={() => onSelectRoom(room.id)}
                 role="button"
+                aria-label={room.name}
                 aria-pressed={isSelected}
+                onClick={() => onSelectRoom(room.id)}
                 css={css`
                   cursor: pointer;
                   padding: 14px 16px;

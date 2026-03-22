@@ -17,11 +17,9 @@ export function useBookRoom({ onSuccess }: Props) {
 
   const createMutation = useMutation((data: CreateReservationInput) => createReservation(data), {
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: [...reservationKeys.mine(), variables.date],
-      });
-
-      onSuccess && onSuccess();
+      queryClient.invalidateQueries({ queryKey: reservationKeys.mine() });
+      queryClient.invalidateQueries({ queryKey: reservationKeys.all(variables.date) });
+      onSuccess?.();
     },
     onError: (err: unknown) => {
       // TODO
@@ -33,8 +31,13 @@ export function useBookRoom({ onSuccess }: Props) {
   const bookRoom = async ({ conditions, roomId }: { conditions: BookingConditions; roomId: string | null }) => {
     const { date, startTime, endTime, attendees, equipment } = conditions;
 
-    if (!roomId || !startTime || !endTime) {
+    if (!startTime || !endTime) {
       setErrorMessage('예약 정보를 모두 입력해주세요.');
+      return;
+    }
+
+    if (!roomId) {
+      setErrorMessage('회의실을 선택해주세요.');
       return;
     }
 

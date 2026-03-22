@@ -1,13 +1,12 @@
 import type { DateString } from 'shared/types/dateType';
 
-// TODO
 export const reservationKeys = {
-  all: () => ['reservation'] as const,
+  all: (date: DateString) => ['reservation', date] as const,
 
-  rooms: () => [...reservationKeys.all(), 'rooms'] as const,
+  rooms: () => ['reservation', 'rooms'] as const,
 
-  timelines: () => [...reservationKeys.all(), 'timeline'] as const,
-  timeline: (date: DateString) => [...reservationKeys.timelines(), { date }] as const,
+  timelines: (date: DateString) => [...reservationKeys.all(date), 'timeline'] as const,
+  timeline: (date: DateString) => [...reservationKeys.timelines(date)] as const,
 
-  mine: () => [...reservationKeys.all(), 'mine'] as const,
+  mine: () => ['reservation', 'mine'] as const,
 };

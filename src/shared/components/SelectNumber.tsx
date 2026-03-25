@@ -1,0 +1,32 @@
+import { css } from '@emotion/react';
+import { colors } from '_tosslib/constants/colors';
+import { ComponentPropsWithRef } from 'react';
+
+type Props = ComponentPropsWithRef<'input'> & {
+  min: number;
+  max: number;
+};
+
+export function SelectNumber({ min, max, ...rest }: Props) {
+  return (
+    <input
+      type="number"
+      min={min}
+      max={max}
+      {...rest}
+      css={css`
+        box-sizing: border-box;
+        font-size: 16px;
+        font-weight: 500;
+        height: 48px;
+        background-color: ${colors.grey50};
+        border-radius: 12px;
+        color: ${colors.grey800};
+        width: 100%;
+        border: 1px solid ${colors.grey200};
+        padding: 0 16px;
+        outline: none;
+      `}
+    />
+  );
+}

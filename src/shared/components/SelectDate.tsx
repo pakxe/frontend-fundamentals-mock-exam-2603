@@ -32,43 +32,37 @@ export function SelectDate({ value, onChangeDate }: Props) {
   return (
     <div
       css={css`
-        padding: 0 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       `}
     >
-      <div
+      <input
+        type="date"
+        value={inputValue}
+        min={minDate}
+        onChange={handleInputChange}
+        aria-label="날짜"
         css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-        `}
-      >
-        <input
-          type="date"
-          value={inputValue}
-          min={minDate}
-          onChange={handleInputChange}
-          aria-label="날짜"
-          css={css`
-            box-sizing: border-box;
-            width: 100%;
-            height: 48px;
-            padding: 0 16px;
-            border: 1px solid ${colors.grey200};
-            border-radius: 12px;
-            outline: none;
-            background-color: ${colors.grey50};
-            color: ${colors.grey800};
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 1.5;
-            transition: border-color 0.15s;
+          box-sizing: border-box;
+          width: 100%;
+          height: 48px;
+          padding: 0 16px;
+          border: 1px solid ${colors.grey200};
+          border-radius: 12px;
+          outline: none;
+          background-color: ${colors.grey50};
+          color: ${colors.grey800};
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 1.5;
+          transition: border-color 0.15s;
 
-            &:focus {
-              border-color: ${colors.blue500};
-            }
-          `}
-        />
-      </div>
+          &:focus {
+            border-color: ${colors.blue500};
+          }
+        `}
+      />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { MessageBanner } from 'shared/components/MessageBanner';
 import { MyReservationSection } from 'shared/components/MyReservationSection';
 import { useTempMessage } from 'shared/hooks/useTempMessage';
 import { Loading } from 'shared/components/Loading';
+import { RectSpacing } from 'shared/components/RectSpacing';
 
 function getInitialMessage(locationState: { message?: string } | null): Message | null {
   return locationState?.message ? { type: 'success', text: locationState.message } : null;
@@ -48,17 +49,13 @@ export function ReservationStatusPage() {
 
       <Spacing size={24} />
 
-      <div
-        css={css`
-          padding: 0 24px;
-        `}
-      >
+      <RectSpacing x={24}>
         <Text as="label" className="w-full" typography="t5" fontWeight="bold" color={colors.grey900}>
           날짜 선택
           <Spacing size={16} />
           <SelectDate value={date} onChangeDate={setDate} />
         </Text>
-      </div>
+      </RectSpacing>
 
       <Spacing size={24} />
       <Border size={8} />

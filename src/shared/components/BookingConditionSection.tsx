@@ -5,6 +5,10 @@ import { DateString } from 'shared/types/dateType';
 import { TimeString } from 'shared/types/timeType';
 import { isTimeString, genTimeline } from 'shared/utils/timeUtils';
 import { SelectDate } from 'shared/components/SelectDate';
+import { RectSpacing } from 'shared/components/RectSpacing';
+import { Flex } from 'shared/components/Flex';
+import { Grid } from 'shared/components/Grid';
+import { SelectNumber } from 'shared/components/SelectNumber';
 
 const EQUIPMENT_LABELS: Record<string, string> = {
   tv: 'TV',
@@ -36,45 +40,22 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
   const { date, startTime, endTime, attendees, floor, equipment } = conditions;
 
   return (
-    <div
-      css={css`
-        padding: 0 24px;
-      `}
-    >
+    <RectSpacing x={24}>
       <Text typography="t5" fontWeight="bold" color={colors.grey900}>
         예약 조건
       </Text>
       <Spacing size={16} />
 
-      <div
-        css={css`
-          padding: 0 24px;
-        `}
-      >
-        <Text as="label" className="w-full" typography="t5" fontWeight="bold" color={colors.grey900}>
-          날짜 선택
-          <Spacing size={16} />
-          <SelectDate value={date} onChangeDate={newDate => onChange('date', newDate)} />
-        </Text>
-      </div>
+      <Text as="label" className="w-full" typography="t7" fontWeight="medium" color={colors.grey600}>
+        날짜
+        <Spacing size={6} />
+        <SelectDate value={date} onChangeDate={newDate => onChange('date', newDate)} />
+      </Text>
 
       <Spacing size={14} />
 
-      {/* 시간 */}
-      <div
-        css={css`
-          display: flex;
-          gap: 12px;
-        `}
-      >
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1;
-          `}
-        >
+      <Grid gap={12} columns={2}>
+        <Flex direction="column" gap={6} flex={1}>
           <Text as="label" htmlFor="start-time" typography="t7" fontWeight="medium" color={colors.grey600}>
             시작 시간
           </Text>
@@ -93,15 +74,9 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
               </option>
             ))}
           </Select>
-        </div>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1;
-          `}
-        >
+        </Flex>
+
+        <Flex direction="column" gap={6} flex={1}>
           <Text as="label" htmlFor="end-time" typography="t7" fontWeight="medium" color={colors.grey600}>
             종료 시간
           </Text>
@@ -120,11 +95,11 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
               </option>
             ))}
           </Select>
-        </div>
-      </div>
+        </Flex>
+      </Grid>
+
       <Spacing size={14} />
 
-      {/* 참석 인원 & 선호 층 */}
       <div
         css={css`
           display: flex;
@@ -142,25 +117,12 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
           <Text as="label" htmlFor="attendees" typography="t7" fontWeight="medium" color={colors.grey600}>
             참석 인원
           </Text>
-          <input
+          <SelectNumber
             id="attendees"
-            type="number"
             min={1}
+            max={50}
             value={attendees}
             onChange={e => onChange('attendees', Math.max(1, Number(e.target.value)))}
-            css={css`
-              box-sizing: border-box;
-              font-size: 16px;
-              font-weight: 500;
-              height: 48px;
-              background-color: ${colors.grey50};
-              border-radius: 12px;
-              color: ${colors.grey800};
-              width: 100%;
-              border: 1px solid ${colors.grey200};
-              padding: 0 16px;
-              outline: none;
-            `}
           />
         </div>
         <div
@@ -193,7 +155,6 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
       </div>
       <Spacing size={14} />
 
-      {/* 장비 */}
       <div>
         <Text as="label" typography="t7" fontWeight="medium" color={colors.grey600}>
           필요 장비
@@ -249,6 +210,6 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
           </span>
         </>
       )}
-    </div>
+    </RectSpacing>
   );
 }

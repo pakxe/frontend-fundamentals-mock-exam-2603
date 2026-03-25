@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { Suspense, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Top, Spacing, Border, Button } from '_tosslib/components';
+import { Top, Spacing, Border, Button, Text } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
 import { getRooms, getReservations, getMyReservations, cancelReservation } from 'pages/remotes';
 import { formatDate } from 'shared/utils/dateUtils';
@@ -48,7 +48,17 @@ export function ReservationStatusPage() {
 
       <Spacing size={24} />
 
-      <SelectDate value={date} onChangeDate={setDate} />
+      <div
+        css={css`
+          padding: 0 24px;
+        `}
+      >
+        <Text as="label" className="w-full" typography="t5" fontWeight="bold" color={colors.grey900}>
+          날짜 선택
+          <Spacing size={16} />
+          <SelectDate value={date} onChangeDate={setDate} />
+        </Text>
+      </div>
 
       <Spacing size={24} />
       <Border size={8} />

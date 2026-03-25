@@ -35,10 +35,6 @@ export function SelectDate({ value, onChangeDate }: Props) {
         padding: 0 24px;
       `}
     >
-      <Text typography="t5" fontWeight="bold" color={colors.grey900}>
-        날짜 선택
-      </Text>
-      <Spacing size={16} />
       <div
         css={css`
           display: flex;

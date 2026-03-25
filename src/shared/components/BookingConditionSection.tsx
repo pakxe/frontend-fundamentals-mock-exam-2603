@@ -46,15 +46,16 @@ export function BookingConditionSection({ conditions, onChange, floors, validati
       </Text>
       <Spacing size={16} />
 
-      {/* ✨ SelectDate 컴포넌트 그대로 장착 */}
       <div
         css={css`
-          margin: 0 -24px;
+          padding: 0 24px;
         `}
       >
-        {' '}
-        {/* SelectDate 내부의 padding 24px와 겹치지 않게 음수 마진을 살짝 줬습니다 */}
-        <SelectDate value={date} onChangeDate={newDate => onChange('date', newDate)} />
+        <Text as="label" className="w-full" typography="t5" fontWeight="bold" color={colors.grey900}>
+          날짜 선택
+          <Spacing size={16} />
+          <SelectDate value={date} onChangeDate={newDate => onChange('date', newDate)} />
+        </Text>
       </div>
 
       <Spacing size={14} />

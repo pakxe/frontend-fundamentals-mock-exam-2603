@@ -6,6 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
+    "@suspensive/react": "^3.20.0",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/react-query": "^4.43.0",
     "axios": "^0.27.2",
@@ -16,6 +17,7 @@
     "qs": "^6.11.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-error-boundary": "^6.1.1",
     "react-hook-form": "^7.71.2",
     "react-router-dom": "^6.3.0",
     "react-uid": "^2.3.2",

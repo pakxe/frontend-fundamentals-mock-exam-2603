@@ -35,7 +35,7 @@ type Props = {
   date: DateString;
 };
 
-export function ReservationTimelineSection({ date }: Props) {
+export function ReservationTimeline({ date }: Props) {
   const { data: rooms } = useSuspenseQuery(reservationQueries.rooms());
   const { data: reservations } = useSuspenseQuery(reservationQueries.all(date));
 
@@ -53,17 +53,7 @@ export function ReservationTimelineSection({ date }: Props) {
   }, [reservations]);
 
   return (
-    <div
-      css={css`
-        padding: 0 24px;
-      `}
-    >
-      <Text typography="t5" fontWeight="bold" color={colors.grey900}>
-        예약 현황
-      </Text>
-
-      <Spacing size={16} />
-
+    <>
       <div
         css={css`
           background: ${colors.grey50};
@@ -229,6 +219,6 @@ export function ReservationTimelineSection({ date }: Props) {
           );
         })}
       </div>
-    </div>
+    </>
   );
 }

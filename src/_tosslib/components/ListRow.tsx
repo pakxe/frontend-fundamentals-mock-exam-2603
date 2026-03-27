@@ -2,6 +2,7 @@ import { ComponentProps, ReactNode } from 'react';
 import Text from './Text';
 import { css } from '@emotion/react';
 import Icon from '_tosslib/components/Icon';
+import Button from '_tosslib/components/Button';
 
 interface ListRowProps {
   className?: string;
@@ -50,6 +51,11 @@ interface Text1RowProps {
 }
 ListRow.Text1Row = ({ top, topProps }: Text1RowProps) => {
   return <Text {...topProps}>{top}</Text>;
+};
+
+type ButtonProps = ComponentProps<typeof Button> & {};
+ListRow.Button = ({ ...rest }: ButtonProps) => {
+  return <Button size="small" style="weak" {...rest} />;
 };
 
 export default ListRow;

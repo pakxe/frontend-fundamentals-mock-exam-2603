@@ -1,9 +1,9 @@
-import { BookingConditions } from 'shared/components/BookingConditionSection';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createReservation, CreateReservationInput } from 'pages/remotes';
 import { useState } from 'react';
 import { reservationKeys } from 'shared/api/reservationQueryKeys';
 import axios from 'axios';
+import { BookingConditions } from 'shared/components/BookingConditionSection';
 
 type Props = {
   onSuccess?: () => void;

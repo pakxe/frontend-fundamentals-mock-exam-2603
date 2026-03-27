@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Spacing, Text } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
 import { DateString } from 'shared/types/dateType';
 import { formatDate, isDateString } from 'shared/utils/dateUtils';

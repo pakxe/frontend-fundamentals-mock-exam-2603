@@ -1,4 +1,6 @@
 module.exports = {
+  ignores: ['**/*.pseudo.tsx'],
+
   root: true,
 
   env: {

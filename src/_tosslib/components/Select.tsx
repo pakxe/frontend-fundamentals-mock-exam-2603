@@ -31,6 +31,7 @@ const Select = ({ className, ...rest }: Props) => {
           outline: none;
           appearance: none;
           padding: 0 24px 0 16px;
+          cursor: pointer;
         `}
       />
       <img

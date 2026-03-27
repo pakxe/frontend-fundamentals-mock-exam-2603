@@ -34,7 +34,7 @@ export function useBookingQueryParams() {
         if (value === null || value === '' || (Array.isArray(value) && value.length === 0)) {
           newParams.delete(key);
         } else if (Array.isArray(value)) {
-          newParams.set(key, value.join(',')); // 배열은 콤마(,)로 연결
+          newParams.set(key, value.join(','));
         } else {
           newParams.set(key, String(value));
         }

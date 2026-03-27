@@ -22,13 +22,6 @@ import { Suspense } from '@suspensive/react';
 import { EQUIPMENTS } from 'shared/constants/equipment';
 import { formatLabels } from 'shared/utils/formatLabels';
 
-const EQUIPMENT_LABELS: Record<string, string> = {
-  tv: 'TV',
-  whiteboard: '화이트보드',
-  video: '화상장비',
-  speaker: '스피커',
-};
-
 // 각각 suspense를 걸면 로딩이 여러개 뜨므로 ux에 좋지 않아보임..
 export const ReservationStatusPage = Suspense.with({ fallback: <Loading /> }, () => {
   const navigate = useNavigate();
